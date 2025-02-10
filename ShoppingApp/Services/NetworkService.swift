@@ -37,4 +37,24 @@ final class NetworkService {
         task.resume()
     }
     
+    func requestData(_ urlRequest: URLRequest,
+                         completion: @escaping (Result<Data, Error>) -> Void) {
+        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NSError(domain: "No data", code: -1, userInfo: nil)))
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completion(.success(data))
+            }
+        }
+        task.resume()
+    }
+    
 }

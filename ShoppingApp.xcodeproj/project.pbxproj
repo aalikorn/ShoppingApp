@@ -33,7 +33,7 @@
 		BC13BE662D5A4EA800F9CD68 /* Exceptions for "ShoppingApp" folder in "ShoppingApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				"Supporting files/Info.plist",
 			);
 			target = BC13BE3D2D5A4EA700F9CD68 /* ShoppingApp */;
 		};

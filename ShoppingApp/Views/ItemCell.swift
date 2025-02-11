@@ -16,7 +16,8 @@ class ItemCell: UICollectionViewCell {
         titleLabel.text = title
         imageView.image = image ?? UIImage(named: "placeholder")
         titleLabel.numberOfLines = 2
-        titleLabel.textColor = .black 
+        titleLabel.textColor = .black
+        imageView.layer.cornerRadius = 20
     }
     
     override init(frame: CGRect) {

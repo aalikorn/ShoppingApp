@@ -10,12 +10,13 @@ import UIKit
 class SearchViewController: UIViewController {
     var searchViewModel: SearchViewModel!
     var collectionView: UICollectionView!
-    private let searchController = SearchBarWithFilter()
+    let searchController = SearchBarWithFilter()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupSearchController()
         view.backgroundColor = .white
         searchViewModel = SearchViewModel()
+        setupKeyboardDismissRecognizer()
         setupCollectionView()
         searchViewModel.onUpdate = {[weak self] in
             self?.updateUI()}

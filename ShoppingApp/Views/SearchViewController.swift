@@ -21,6 +21,7 @@ class SearchViewController: UIViewController {
         searchViewModel.onUpdate = {[weak self] in
             self?.updateUI()}
         searchViewModel.loadProducts()
+        print("aaa")
     }
     
     func setupCollectionView() {
@@ -43,9 +44,7 @@ class SearchViewController: UIViewController {
     }
     
     func updateUI() {
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
+        self.collectionView.reloadData()
     }
 
 

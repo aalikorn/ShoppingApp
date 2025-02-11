@@ -10,9 +10,7 @@ import UIKit
 class SearchViewController: UIViewController {
     var searchViewModel: SearchViewModel!
     var collectionView: UICollectionView!
-    private let searchController = UISearchController(searchResultsController: nil)
-   
-
+    private let searchController = SearchBarWithFilter()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupSearchController()
@@ -40,6 +38,7 @@ class SearchViewController: UIViewController {
         ])
         
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.register(ItemCell.self, forCellWithReuseIdentifier: "\(ItemCell.self)")
     }
     
@@ -49,15 +48,10 @@ class SearchViewController: UIViewController {
         }
     }
     
-    private func setupSearchController() {
-        self.searchController.searchResultsUpdater = self
-        self.searchController.obscuresBackgroundDuringPresentation = false
-        self.searchController.hidesNavigationBarDuringPresentation = false
-        self.searchController.searchBar.placeholder = "Search for product..."
-        
-        self.navigationItem.searchController = self.searchController
-        self.definesPresentationContext = false
-        self.navigationItem.hidesSearchBarWhenScrolling = false
+    func setupSearchController() {
+        searchController.placeholder = "Search for product..."
+        self.navigationItem.titleView = searchController
+        searchController.delegate = self
     }
 }
 

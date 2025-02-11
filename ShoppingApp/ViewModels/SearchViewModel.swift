@@ -23,6 +23,9 @@ final class SearchViewModel {
         repository.fetchProducts(offset: (currentPage - 1) * itemsPerPage, limit: itemsPerPage,title: title) { [weak self] result in
             switch result {
             case .success(let newProducts):
+                if self?.currentPage == 1 {
+                    self?.products.removeAll()
+                }
                 self?.isLoading = false
                 self?.products.append(contentsOf: newProducts)
                 self?.currentPage += 1

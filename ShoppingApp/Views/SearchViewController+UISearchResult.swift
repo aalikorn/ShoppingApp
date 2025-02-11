@@ -7,15 +7,10 @@
 
 import UIKit
 
-extension SearchViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        self.updateResults(searchBarText: searchController.searchBar.text)
-    }
+extension SearchViewController: UISearchBarDelegate {
     
-    public func inSearchMode(_ searchController: UISearchController) -> Bool {
-        let isActive = searchController.isActive
-        let searchText = searchController.searchBar.text ?? ""
-        return isActive && !searchText.isEmpty
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.updateResults(searchBarText: searchText)
     }
     
     public func updateResults(searchBarText: String?) {

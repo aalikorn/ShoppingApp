@@ -9,8 +9,15 @@ import Foundation
 
 final class ProductRepository {
     let baseURL = "https://api.escuelajs.co/api/v1"
+    
     func fetchProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
         guard let url = URL(string: "\(baseURL)/products") else { return }
+        let request = URLRequest(url: url)
+        NetworkService.shared.request(request, completion: completion)
+    }
+    
+    func fetchProducts(offset: Int, limit: Int, completion: @escaping (Result<[Product], Error>) -> Void) {
+        guard let url = URL(string: "\(baseURL)/products?offset=\(offset)&limit=\(limit)") else { return }
         let request = URLRequest(url: url)
         NetworkService.shared.request(request, completion: completion)
     }

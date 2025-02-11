@@ -15,6 +15,7 @@ class ItemCell: UICollectionViewCell {
     func configure(title: String, image: UIImage?) {
         titleLabel.text = title
         imageView.image = image ?? UIImage(named: "placeholder")
+        titleLabel.numberOfLines = 2
     }
     
     override init(frame: CGRect) {
@@ -22,6 +23,7 @@ class ItemCell: UICollectionViewCell {
        
        imageView = UIImageView()
        titleLabel = UILabel()
+    
     
        
        contentView.addSubview(imageView)
@@ -37,24 +39,26 @@ class ItemCell: UICollectionViewCell {
     private func setupConstraints() {
         self.clipsToBounds = true
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .scaleAspectFit
         
        imageView.translatesAutoresizingMaskIntoConstraints = false
        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-        ])
+       
        
        
        NSLayoutConstraint.activate([
            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-           imageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor)
+           imageView.heightAnchor.constraint(equalToConstant: 150)
        ])
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 2),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+        ])
        
        
    }

@@ -13,12 +13,20 @@ final class SearchViewModel {
     
     var products: [Product] = []
     var onUpdate: (() -> Void)?
+    private var currentPage = 1
+    private let itemsPerPage = 20
+    private var isLoading = false
 
     func loadProducts() {
-        repository.fetchProducts { [weak self] result in
+        guard !isLoading else { return }
+        print("Загружаются продукты, текущая страница: \(currentPage)")
+        isLoading = true
+        repository.fetchProducts(offset: currentPage * itemsPerPage, limit: itemsPerPage) { [weak self] result in
             switch result {
-            case .success(let products):
-                self?.products = products
+            case .success(let newProducts):
+                self?.isLoading = false
+                self?.products.append(contentsOf: newProducts)
+                self?.currentPage += 1
                 self?.onUpdate?()
             case .failure(let error):
                 print("Ошибка загрузки: \(error)")

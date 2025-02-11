@@ -10,9 +10,12 @@ import UIKit
 class SearchViewController: UIViewController {
     var searchViewModel: SearchViewModel!
     var collectionView: UICollectionView!
+    
+   
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         searchViewModel = SearchViewModel()
         setupCollectionView()
         searchViewModel.onUpdate = {[weak self] in
@@ -21,10 +24,7 @@ class SearchViewController: UIViewController {
     }
     
     func setupCollectionView() {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: setupFlowLayout())
         collectionView.backgroundColor = .white
 
         view.addSubview(collectionView)
@@ -43,7 +43,9 @@ class SearchViewController: UIViewController {
     }
     
     func updateUI() {
-        collectionView.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
 
 

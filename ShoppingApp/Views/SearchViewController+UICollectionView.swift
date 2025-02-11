@@ -36,5 +36,23 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return cell
     }
     
+    func setupFlowLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = .init(width: 170, height: 200)
+        layout.scrollDirection = .vertical
+        layout.sectionInset = .init(top: 20, left: 20, bottom: 20, right: 20)
+        return layout
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let frameHeight = scrollView.frame.size.height
+        
+        if position > contentHeight - frameHeight * 1.5 {
+            searchViewModel.loadProducts()
+        }
+    }
+    
     
 }

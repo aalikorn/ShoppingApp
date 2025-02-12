@@ -26,8 +26,6 @@ class ItemCell: UICollectionViewCell {
        imageView = UIImageView()
        titleLabel = UILabel()
     
-    
-       
        contentView.addSubview(imageView)
        contentView.addSubview(titleLabel)
        

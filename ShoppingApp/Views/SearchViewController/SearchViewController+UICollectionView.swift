@@ -50,8 +50,15 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let frameHeight = scrollView.frame.size.height
         
         if position > contentHeight - frameHeight * 1.5 {
+            print("scroll")
             searchViewModel.loadProducts()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let itemVC = ItemViewController()
+        itemVC.itemViewModel = ItemViewModel(product: searchViewModel.products[indexPath.row])
+        navigationController?.pushViewController(itemVC, animated: true)
     }
     
     

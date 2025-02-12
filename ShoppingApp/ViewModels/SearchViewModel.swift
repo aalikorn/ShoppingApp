@@ -30,7 +30,6 @@ final class SearchViewModel {
                 self?.products.append(contentsOf: newProducts)
                 self?.currentPage += 1
                 self?.onUpdate?()
-                print("onUpdate вызван, новые данные: \(self?.products.count ?? 0)")
             case .failure(let error):
                 print("Ошибка загрузки: \(error)")
             }

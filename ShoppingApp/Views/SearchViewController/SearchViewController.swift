@@ -11,6 +11,7 @@ class SearchViewController: UIViewController {
     var searchViewModel: SearchViewModel!
     var collectionView: UICollectionView!
     let searchController = SearchBarWithFilter()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupSearchController()
@@ -53,6 +54,18 @@ class SearchViewController: UIViewController {
         searchController.placeholder = "Search for product..."
         self.navigationItem.titleView = searchController
         searchController.delegate = self
+        searchController.filterButton.addTarget(self, action: #selector(openFilters), for: .touchUpInside)
+        
+    }
+    
+    @objc private func openFilters() {
+        let filterVC = FiltersViewController()
+        if let sheet = filterVC.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.prefersGrabberVisible = true
+        }
+       
+        present(filterVC, animated: true)
     }
 }
 

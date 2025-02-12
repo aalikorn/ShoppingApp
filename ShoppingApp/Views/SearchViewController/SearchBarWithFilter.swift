@@ -21,13 +21,8 @@ class SearchBarWithFilter: UISearchBar {
         guard let searchField = self.value(forKey: "searchField") as? UITextField else { return }
         
         filterButton.frame = CGRect(x: searchField.frame.width - 35, y: 0, width: 30, height: searchField.frame.height)
-        filterButton.addTarget(self, action: #selector(openFilter), for: .touchUpInside)
         
         searchField.rightView = filterButton
         searchField.rightViewMode = .always
-    }
-
-    @objc private func openFilter() {
-        print("Фильтр нажат!")
     }
 }

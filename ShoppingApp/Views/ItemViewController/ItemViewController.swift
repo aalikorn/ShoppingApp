@@ -76,7 +76,8 @@ class ItemViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4)
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
         ])
     }
     
@@ -88,6 +89,7 @@ class ItemViewController: UIViewController {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4)
         ])
     }
@@ -100,7 +102,8 @@ class ItemViewController: UIViewController {
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             priceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            priceLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 8)
+            priceLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 8),
+            priceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
         ])
     }
     

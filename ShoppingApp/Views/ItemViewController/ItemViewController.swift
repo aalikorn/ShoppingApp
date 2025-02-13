@@ -120,7 +120,22 @@ class ItemViewController: UIViewController {
     }
     
     func configureAddButton() {
-        
+        addButton.setTitle("Добавить в корзину", for: .normal)
+        addButton.backgroundColor = .systemBlue
+        addButton.layer.cornerRadius = 8
+        view.addSubview(addButton)
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addButton.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 16),
+            addButton.widthAnchor.constraint(equalToConstant: 200),
+            addButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
     }
     
+    @objc func addButtonTapped() {
+        print("update ui")
+        ShoppingListViewModel.shared.addProduct(itemViewModel.product)
+    }
 }

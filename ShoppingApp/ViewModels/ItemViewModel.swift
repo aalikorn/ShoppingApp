@@ -8,7 +8,7 @@
 import Foundation
 
 class ItemViewModel {
-    private let product: Product
+    let product: Product
         
     init(product: Product) {
         self.product = product

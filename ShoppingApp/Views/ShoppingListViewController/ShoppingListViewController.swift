@@ -9,14 +9,19 @@ import UIKit
 
 class ShoppingListViewController: UIViewController {
     var shoppingListTableView: UITableView!
-    var shoppingListViewModel: ShoppingListViewModel!
+    var searchViewModel: SearchViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        shoppingListViewModel = ShoppingListViewModel()
+        searchViewModel = SearchViewModel()
         setupShoppingListTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI()
     }
     
     func setupShoppingListTableView() {
@@ -29,6 +34,15 @@ class ShoppingListViewController: UIViewController {
             self.shoppingListTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.shoppingListTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
         ])
-        
+        shoppingListTableView.dataSource = self
+        shoppingListTableView.delegate = self
+        shoppingListTableView.register(ShoppingListItemCell.self, forCellReuseIdentifier: "ShoppingListCell")
+    }
+    
+    func updateUI() {
+        DispatchQueue.main.async {
+            print("update ui")
+            self.shoppingListTableView.reloadData()
+        }
     }
 }

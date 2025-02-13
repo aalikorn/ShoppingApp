@@ -8,20 +8,28 @@
 import Foundation
 
 class ShoppingListViewModel {
+    static let shared = ShoppingListViewModel()
+    private init() {}
+
     var shoppingList: [ShoppingListItem] = []
-    
-    func addProduct(product: Product) {
-        let newItem = ShoppingListItem(product: product, quantity: 1)
-        shoppingList.append(newItem)
+
+    func loadShoppingList() {
+        shoppingList = DataManager.shared.fetchShoppingList()
     }
-    
-    func changeQuantity(for shoppingListItem: ShoppingListItem, newQuantity: Int) {
-        if let index = shoppingList.firstIndex(where: { $0.product.id == shoppingListItem.product.id} ) {
-            if newQuantity > 0 {
-                shoppingList[index].quantity = newQuantity
-            } else {
-                shoppingList.remove(at: index)
-            }
-        }
+
+    func addProduct(_ product: Product) {
+        DataManager.shared.addProductToCart(product, quantity: 1)
+        loadShoppingList()
+    }
+
+    func updateQuantity(for product: Product, newQuantity: Int) {
+        DataManager.shared.changeQuantity(for: product, newQuantity: newQuantity)
+        loadShoppingList()
+    }
+
+    func removeProduct(_ product: Product) {
+        DataManager.shared.removeProductFromCart(product)
+        loadShoppingList()
     }
 }
+

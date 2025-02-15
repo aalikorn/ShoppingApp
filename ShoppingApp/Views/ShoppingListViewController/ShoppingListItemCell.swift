@@ -16,12 +16,14 @@ class ShoppingListItemCell: UITableViewCell {
     var plusButton: UIButton!
     var minusButton: UIButton!
     var removeButton: UIButton!
+    var item: ShoppingListItem!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
-    func configure(image: UIImage?, title: String, price: Double, quantity: Int) {
+    func configure(item: ShoppingListItem, image: UIImage?, title: String, price: Double, quantity: Int) {
+        self.item = item
         let image = image ?? UIImage(named: "placeholder")!
         confgureImage(image)
         conigureTitle(title)
@@ -71,9 +73,15 @@ class ShoppingListItemCell: UITableViewCell {
         minusButton = UIButton(type: .system)
         minusButton.setTitle("-", for: .normal)
         minusButton.titleLabel?.font = .systemFont(ofSize: 40, weight: .medium)
+        minusButton.setTitleColor(.systemBlue, for: .normal)
+        minusButton.addTarget(self, action: #selector(minusButtonTapped), for: .touchUpInside)
+        
         plusButton = UIButton(type: .system)
         plusButton.setTitle("+", for: .normal)
         plusButton.titleLabel?.font = .systemFont(ofSize: 40, weight: .medium)
+        plusButton.setTitleColor(.systemBlue, for: .normal)
+        plusButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
+        
         quantityTextField = UITextField()
         quantityTextField.attributedPlaceholder = NSAttributedString(
             string: String(quantity),
@@ -116,6 +124,7 @@ class ShoppingListItemCell: UITableViewCell {
         removeButton.backgroundColor = .systemRed
         removeButton.layer.cornerRadius = 8
         removeButton.setTitleColor(.white, for: .normal)
+        removeButton.addTarget(self, action: #selector(removeButtonTapped), for: .touchUpInside)
         contentView.addSubview(removeButton)
         removeButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -126,8 +135,25 @@ class ShoppingListItemCell: UITableViewCell {
         ])
     }
     
+    @objc func minusButtonTapped() {
+        ShoppingListViewModel.shared.updateQuantity(for: item.product, newQuantity: item.quantity - 1)
+    }
+    
+    @objc func plusButtonTapped() {
+        ShoppingListViewModel.shared.updateQuantity(for: item.product, newQuantity: item.quantity + 1)
+    }
+    
+    @objc func removeButtonTapped() {
+        ShoppingListViewModel.shared.removeProduct(item.product)
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        contentView.subviews.forEach { $0.removeFromSuperview() }
     }
     
 }

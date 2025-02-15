@@ -8,7 +8,6 @@
 import UIKit
 
 class SearchViewController: UIViewController {
-    var searchViewModel: SearchViewModel!
     var collectionView: UICollectionView!
     let searchController = SearchBarWithFilter()
     
@@ -16,12 +15,11 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         self.setupSearchController()
         view.backgroundColor = .white
-        searchViewModel = SearchViewModel()
         setupKeyboardDismissRecognizer()
         setupCollectionView()
-        searchViewModel.onUpdate = {[weak self] in
+        SearchViewModel.shared.onUpdate = {[weak self] in
             self?.updateUI()}
-        searchViewModel.loadProducts()
+        SearchViewModel.shared.loadProducts()
     }
     
     func setupCollectionView() {

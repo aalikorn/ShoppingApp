@@ -16,6 +16,9 @@ final class SearchViewModel {
     var currentPage = 1
     private let itemsPerPage = 20
     private var isLoading = false
+    
+    static let shared = SearchViewModel()
+    private init() {}
 
     func loadProducts(title: String? = nil) {
         guard !isLoading else { return }
@@ -26,6 +29,29 @@ final class SearchViewModel {
                 if self?.currentPage == 1 {
                     self?.products.removeAll()
                 }
+                self?.isLoading = false
+                self?.products.append(contentsOf: newProducts)
+                self?.currentPage += 1
+                self?.onUpdate?()
+            case .failure(let error):
+                print("Ошибка загрузки: \(error)")
+            }
+        }
+    }
+    
+    func loadProducts(param: String) {
+        print(param)
+        print(self.currentPage)
+        guard !isLoading else { return }
+        isLoading = true
+        repository.fetchProducts(with: param, offset: (currentPage - 1) * itemsPerPage, limit: itemsPerPage) { [weak self] result in
+            switch result {
+            case .success(let newProducts):
+//                if self?.currentPage == 1 {
+//
+//                }
+                
+                self?.products.removeAll()
                 self?.isLoading = false
                 self?.products.append(contentsOf: newProducts)
                 self?.currentPage += 1

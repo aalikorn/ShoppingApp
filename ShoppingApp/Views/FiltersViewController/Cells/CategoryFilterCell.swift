@@ -8,7 +8,7 @@
 import UIKit
 
 class CategoryFilterCell: UITableViewCell {
-    private let categories: [String] = ["Новое", "Игры", "Мебель", "Обувь", "Разное"]
+    private let categories: [String] = ["Электроника", "Мебель", "Одежда", "Обувь", "Разное"]
     private var categoryButtons: [CategoryButton] = []
     
     private var selectedCategory: CategoryButton? {
@@ -19,7 +19,12 @@ class CategoryFilterCell: UITableViewCell {
     }
     
     @objc private func categorySelected(_ sender: CategoryButton) {
+        if self.selectedCategory === sender {
+            self.selectedCategory = nil
+            return
+        }
         selectedCategory = sender
+        FiltersViewModel.shared.category = sender.titleLabel?.text
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -56,7 +61,7 @@ class CategoryFilterCell: UITableViewCell {
             button.setTitle(category, for: .normal)
             button.addTarget(self, action: #selector(categorySelected(_:)), for: .touchUpInside)
             
-            if index < 3 {
+            if index < 2 {
                 row1.addArrangedSubview(button)
             } else {
                 row2.addArrangedSubview(button)

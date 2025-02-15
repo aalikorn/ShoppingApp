@@ -72,6 +72,22 @@ class DataManager {
         }
     }
 
+    func getQuantity(for product: Product) -> Int? {
+        let request: NSFetchRequest<ShoppingListItemEntity> = ShoppingListItemEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "productID == %lld", Int64(product.id))
+
+        do {
+            let existingItems = try context.fetch(request)
+            
+            if let existingItem = existingItems.first {
+                return Int(existingItem.quantity)
+            }
+        } catch {
+            print("Ошибка при получении товара \(error)")
+        }
+        return nil
+    }
+    
     func changeQuantity(for product: Product, newQuantity: Int) {
         let request: NSFetchRequest<ShoppingListItemEntity> = ShoppingListItemEntity.fetchRequest()
         request.predicate = NSPredicate(format: "productID == %lld", Int64(product.id))
@@ -94,7 +110,7 @@ class DataManager {
 
     func removeProductFromCart(_ product: Product) {
         let request: NSFetchRequest<ShoppingListItemEntity> = ShoppingListItemEntity.fetchRequest()
-        request.predicate = NSPredicate(format: "product.id == %@", product.id as CVarArg)
+        request.predicate = NSPredicate(format: "productID == %lld", Int64(product.id))
 
         do {
             let existingItems = try context.fetch(request)

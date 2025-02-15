@@ -43,9 +43,6 @@ class ItemCell: UICollectionViewCell {
         
        imageView.translatesAutoresizingMaskIntoConstraints = false
        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-       
-       
        
        NSLayoutConstraint.activate([
            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -60,6 +57,7 @@ class ItemCell: UICollectionViewCell {
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
         ])
        
-       
+        
    }
+
 }

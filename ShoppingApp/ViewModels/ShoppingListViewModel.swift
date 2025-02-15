@@ -10,6 +10,8 @@ import Foundation
 class ShoppingListViewModel {
     static let shared = ShoppingListViewModel()
     private init() {}
+    
+    var onUpdate: (() -> Void)?
 
     var shoppingList: [ShoppingListItem] = []
 
@@ -20,16 +22,23 @@ class ShoppingListViewModel {
     func addProduct(_ product: Product) {
         DataManager.shared.addProductToCart(product, quantity: 1)
         loadShoppingList()
+        onUpdate?()
     }
 
     func updateQuantity(for product: Product, newQuantity: Int) {
-        DataManager.shared.changeQuantity(for: product, newQuantity: newQuantity)
+        if newQuantity > 0 {
+            DataManager.shared.changeQuantity(for: product, newQuantity: newQuantity)
+        } else {
+            DataManager.shared.removeProductFromCart(product)
+        }
         loadShoppingList()
+        onUpdate?()
     }
 
     func removeProduct(_ product: Product) {
         DataManager.shared.removeProductFromCart(product)
         loadShoppingList()
+        onUpdate?()
     }
 }
 

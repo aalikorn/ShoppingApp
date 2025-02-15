@@ -14,9 +14,10 @@ class ShoppingListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
-        searchViewModel = SearchViewModel()
         setupShoppingListTableView()
+        ShoppingListViewModel.shared.onUpdate = { [weak self] in
+            self?.updateUI()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,6 +43,7 @@ class ShoppingListViewController: UIViewController {
     func updateUI() {
         DispatchQueue.main.async {
             print("update ui")
+            ShoppingListViewModel.shared.loadShoppingList()
             self.shoppingListTableView.reloadData()
         }
     }

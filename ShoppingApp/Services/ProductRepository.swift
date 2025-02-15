@@ -38,4 +38,13 @@ final class ProductRepository {
         let request = URLRequest(url: imageUrl)
         NetworkService.shared.requestData(request, completion: completion)
     }
+    
+    func fetchProducts(with param: String, offset: Int, limit: Int, completion: @escaping (Result<[Product], Error>) -> Void) {
+        var urlString: String = "\(baseURL)/products?offset=\(offset)&limit=\(limit)"
+        urlString += "&\(param)"
+        guard let url = URL(string: urlString) else { return }
+        let request = URLRequest(url: url)
+        print(request)
+        NetworkService.shared.request(request, completion: completion)
+    }
 }

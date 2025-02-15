@@ -10,7 +10,6 @@ import UIKit
 class FiltersViewController: UIViewController {
     
     private var tableView: UITableView!
-    var nameTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +33,10 @@ class FiltersViewController: UIViewController {
         tableView.register(ApplyCell.self, forCellReuseIdentifier: "ApplyCell")
         tableView.register(PriceFilterCell.self, forCellReuseIdentifier: "PriceFilterCell")
         tableView.register(CategoryFilterCell.self, forCellReuseIdentifier: "CategoryFilterCell")
-        
+        tableView.register(PriceRangeFilterCell.self, forCellReuseIdentifier: "PriceRangeFilterCell")
+    }
+    
+    func closeController() {
+        self.dismiss(animated: true, completion: nil)
     }
 }

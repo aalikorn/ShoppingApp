@@ -9,16 +9,16 @@ import UIKit
 
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return searchViewModel.products.count
+        return SearchViewModel.shared.products.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ItemCell.self)", for: indexPath) as? ItemCell else {
             return UICollectionViewCell()
         }
-        let product = searchViewModel.products[indexPath.item]
+        let product = SearchViewModel.shared.products[indexPath.item]
         if let imageURL = product.images.first {
-            searchViewModel.getPhoto(imageURL) { result in
+            SearchViewModel.shared.getPhoto(imageURL) { result in
                 switch result {
                     case .success(let data):
                         DispatchQueue.main.async {
@@ -51,13 +51,13 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         if position > contentHeight - frameHeight * 1.5 {
             print("scroll")
-            searchViewModel.loadProducts()
+            SearchViewModel.shared.loadProducts()
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let itemVC = ItemViewController()
-        itemVC.itemViewModel = ItemViewModel(product: searchViewModel.products[indexPath.row])
+        itemVC.itemViewModel = ItemViewModel(product: SearchViewModel.shared.products[indexPath.row])
         navigationController?.pushViewController(itemVC, animated: true)
     }
     

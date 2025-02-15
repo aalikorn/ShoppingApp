@@ -20,11 +20,15 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             return tableView.dequeueReusableCell(withIdentifier: "PriceFilterCell", for: indexPath)
         case 2:
-            break
+            return tableView.dequeueReusableCell(withIdentifier: "PriceRangeFilterCell", for: indexPath)
         case 3:
             return tableView.dequeueReusableCell(withIdentifier: "CategoryFilterCell", for: indexPath)
         case 4:
-            return tableView.dequeueReusableCell(withIdentifier: "ApplyCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ApplyCell", for: indexPath) as! ApplyCell
+            cell.closeControllerHandler = { [weak self] in
+                self?.closeController()
+            }
+            return cell
         default:
             break
         }

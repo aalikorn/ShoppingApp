@@ -8,12 +8,15 @@
 import UIKit
 
 class ApplyCell: UITableViewCell {
+    var closeControllerHandler: (() -> Void)?
+    
     let applyButton: UIButton = {
         let button = UIButton()
         button.setTitle("Применить", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .systemGreen
         button.layer.cornerRadius = 15
+        button.addTarget(self, action: #selector(applyButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -33,5 +36,10 @@ class ApplyCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func applyButtonTapped() {
+        SearchViewModel.shared.loadProducts(param: FiltersViewModel.shared.filtersToURLParam())
+        closeControllerHandler?()
     }
 }

@@ -33,4 +33,9 @@ class ItemViewModel {
     var category: String {
         return product.category.name
     }
+    
+    var quantity: Int {
+        return DataManager.shared.getQuantity(for: product) ?? 0
+    }
+
 }

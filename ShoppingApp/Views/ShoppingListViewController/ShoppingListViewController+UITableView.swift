@@ -15,20 +15,21 @@ extension ShoppingListViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ShoppingListCell", for: indexPath) as! ShoppingListItemCell
         let item = ShoppingListViewModel.shared.shoppingList[indexPath.section]
+        cell.configure(item: item, image: UIImage(named: "placeholder"), title: item.product.title, price: item.product.price, quantity: item.quantity)
         var image: UIImage?
         if let imageURL = item.product.images.first {
-            searchViewModel.getPhoto(imageURL) { result in
+            SearchViewModel.shared.getPhoto(imageURL) { result in
                 switch result {
                     case .success(let data):
                         image = UIImage(data: data)
                         DispatchQueue.main.async {
-                            cell.configure(image: image, title: item.product.title, price: item.product.price, quantity: item.quantity)
+                            cell.configure(item: item, image: image, title: item.product.title, price: item.product.price, quantity: item.quantity)
                         }
                     case .failure(let error):
                         print("Ошибка загрузки фото в корзине: \(error)")
                         image = UIImage(named: "placeholder")
                         DispatchQueue.main.async {
-                            cell.configure(image: image, title: item.product.title, price: item.product.price, quantity: item.quantity)
+                            cell.configure(item: item, image: image, title: item.product.title, price: item.product.price, quantity: item.quantity)
                         }
                     }
             }
@@ -49,6 +50,7 @@ extension ShoppingListViewController: UITableViewDataSource, UITableViewDelegate
         itemVC.itemViewModel = ItemViewModel(product: ShoppingListViewModel.shared.shoppingList[indexPath.section].product)
         navigationController?.pushViewController(itemVC, animated: true)
     }
+    
     
     
 }

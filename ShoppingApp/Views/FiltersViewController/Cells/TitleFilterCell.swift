@@ -31,9 +31,22 @@ class TitleFilterCell: UITableViewCell {
             titleTextField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             titleTextField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
+        
+        titleTextField.delegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension TitleFilterCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        if let title = textField.text {
+            FiltersViewModel.shared.name = title
+            print(title)
+        }
+        return true
     }
 }

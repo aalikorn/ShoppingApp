@@ -14,13 +14,37 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let filters = FiltersViewModel.shared
         switch indexPath.section {
         case 0:
-            return tableView.dequeueReusableCell(withIdentifier: "TitleFilterCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TitleFilterCell", for: indexPath) as! TitleFilterCell
+            if let title = filters.name {
+                cell.titleTextField.attributedPlaceholder = NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+            } else {
+                cell.titleTextField.placeholder = "Введите название"
+            }
+            return cell
         case 1:
-            return tableView.dequeueReusableCell(withIdentifier: "PriceFilterCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PriceFilterCell", for: indexPath) as! PriceFilterCell
+            if let price = filters.price {
+                cell.priceTextField.attributedPlaceholder = NSAttributedString(string: String(price), attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+            } else {
+                cell.priceTextField.placeholder = "1000"
+            }
+            return cell
         case 2:
-            return tableView.dequeueReusableCell(withIdentifier: "PriceRangeFilterCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PriceRangeFilterCell", for: indexPath) as! PriceRangeFilterCell
+            if let minPrice = filters.minPrice {
+                cell.minPriceTextField.attributedPlaceholder = NSAttributedString(string: String(minPrice), attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+            } else {
+                cell.minPriceTextField.placeholder = "0"
+            }
+            if let maxPrice = filters.maxPrice {
+                cell.maxPriceTextField.attributedPlaceholder = NSAttributedString(string: String(maxPrice), attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+            } else {
+                cell.maxPriceTextField.placeholder = "1000"
+            }
+            return cell
         case 3:
             return tableView.dequeueReusableCell(withIdentifier: "CategoryFilterCell", for: indexPath)
         case 4:

@@ -15,8 +15,7 @@ class PriceFilterCell: UITableViewCell {
         textField.layer.borderWidth = 1.2
         textField.layer.cornerRadius = 8
         textField.layer.borderColor = UIColor.systemBlue.cgColor
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
-        textField.leftViewMode = .always
+        textField.textAlignment = .center
         return textField
     }()
     
@@ -32,10 +31,32 @@ class PriceFilterCell: UITableViewCell {
             priceTextField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             priceTextField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
+        
+        configureDoneButton()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configureDoneButton() {
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
+       toolbar.sizeToFit()
+
+       
+       let doneButton = UIBarButtonItem(title: "Готово", style: .done, target: self, action: #selector(doneButtonTapped))
+       let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+       
+       toolbar.setItems([flexibleSpace, doneButton], animated: false)
+       priceTextField.inputAccessoryView = toolbar
+    }
+    
+    @objc func doneButtonTapped() {
+        priceTextField.resignFirstResponder()
+    
+        if let text = priceTextField.text, let price = Double(text) {
+            FiltersViewModel.shared.price = price
+        }
     }
 }
 

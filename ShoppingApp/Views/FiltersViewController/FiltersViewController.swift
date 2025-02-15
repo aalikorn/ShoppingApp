@@ -16,6 +16,17 @@ class FiltersViewController: UIViewController {
         setupTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI()
+    }
+    
+    func updateUI() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     private func setupTableView() {
         tableView = UITableView()
         tableView.delegate = self

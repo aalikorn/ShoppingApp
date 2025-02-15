@@ -42,7 +42,6 @@ class ShoppingListViewController: UIViewController {
     
     func updateUI() {
         DispatchQueue.main.async {
-            print("update ui")
             ShoppingListViewModel.shared.loadShoppingList()
             self.shoppingListTableView.reloadData()
         }

@@ -73,9 +73,43 @@ class PriceRangeFilterCell: UITableViewCell {
         ])
     }
     
+    func configureDoneButton() {
+       let minToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
+       minToolbar.sizeToFit()
+        
+        let maxToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
+        maxToolbar.sizeToFit()
+       
+       let minDoneButton = UIBarButtonItem(title: "Готово", style: .done, target: self, action: #selector(minDoneButtonTapped))
+        let maxDoneButton = UIBarButtonItem(title: "Готово", style: .done, target: self, action: #selector(maxDoneButtonTapped))
+       let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+       
+       minToolbar.setItems([flexibleSpace, minDoneButton], animated: false)
+        maxToolbar.setItems([flexibleSpace, maxDoneButton], animated: false)
+        minPriceTextField.inputAccessoryView = minToolbar
+        maxPriceTextField.inputAccessoryView = maxToolbar
+    }
+    
+    @objc func minDoneButtonTapped() {
+        minPriceTextField.resignFirstResponder()
+    
+        if let text = minPriceTextField.text, let price = Double(text) {
+            FiltersViewModel.shared.minPrice = price
+        }
+    }
+    
+    @objc func maxDoneButtonTapped() {
+        maxPriceTextField.resignFirstResponder()
+    
+        if let text = maxPriceTextField.text, let price = Double(text) {
+            FiltersViewModel.shared.maxPrice = price
+        }
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureStackView()
+        configureDoneButton()
     }
     
     required init?(coder: NSCoder) {

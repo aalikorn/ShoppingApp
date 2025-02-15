@@ -9,7 +9,7 @@ import Foundation
 
 class FiltersViewModel {
     var name: String?
-    var price: String?
+    var price: Double?
     var minPrice: Double?
     var maxPrice: Double?
     var category: String?

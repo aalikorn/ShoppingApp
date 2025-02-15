@@ -56,10 +56,12 @@ class SearchViewController: UIViewController {
         
     }
     
+    
+    
     @objc private func openFilters() {
         let filterVC = FiltersViewController()
         if let sheet = filterVC.sheetPresentationController {
-            sheet.detents = [.medium(), .large()]
+            sheet.detents = [.large()]
             sheet.prefersGrabberVisible = true
         }
        

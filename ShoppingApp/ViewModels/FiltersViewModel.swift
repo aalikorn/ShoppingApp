@@ -20,7 +20,7 @@ class FiltersViewModel {
     func filtersToURLParam() -> String {
         var param = ""
         if let name = name {
-            param += "name=\(name)&"
+            param += "title=\(name)&"
         }
         if let price = price {
             param += "price=\(price)&"
@@ -34,15 +34,15 @@ class FiltersViewModel {
         if let category = category {
             switch category {
             case "Электроника":
-                param += "category=Electronics&"
+                param += "categoryId=2&"
             case "Мебель":
-                param += "category=Furniture&"
+                param += "categoryId=3&"
             case "Одежда":
-                param += "category=Clothes&"
+                param += "categoryId=1&"
             case "Обувь":
-                param += "category=Shoes&"
+                param += "categoryId=4&"
             case "Разное":
-                param += "category=Miscellaneous&"
+                param += "categoryId=5&"
             default:
                 break
             }

@@ -57,12 +57,14 @@ class ApplyCell: UITableViewCell {
     }
     
     @objc func applyButtonTapped() {
+        SearchViewModel.shared.currentPage = 1
         SearchViewModel.shared.loadProducts(param: FiltersViewModel.shared.filtersToURLParam())
         closeControllerHandler?()
     }
     
     @objc func denyButtonTapped() {
-        SearchViewModel.shared.loadProducts()
+        SearchViewModel.shared.currentPage = 1
+        SearchViewModel.shared.loadProducts(param: "")
         FiltersViewModel.shared.category = nil
         FiltersViewModel.shared.minPrice = nil
         FiltersViewModel.shared.maxPrice = nil

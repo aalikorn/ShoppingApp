@@ -17,11 +17,13 @@ extension SearchViewController: UISearchBarDelegate {
         if let searchBarText = searchBarText?.lowercased(){
             SearchViewModel.shared.currentPage = 1
             guard !searchBarText.isEmpty else {
-                SearchViewModel.shared.loadProducts()
+                SearchViewModel.shared.currentPage = 1
+                SearchViewModel.shared.loadProducts(param: "")
                 return
             }
             SearchViewModel.shared.products.removeAll()
-            SearchViewModel.shared.loadProducts(title: searchBarText)
+            SearchViewModel.shared.currentPage = 1
+            SearchViewModel.shared.loadProducts(param: "\(searchBarText)&")
         }
     }
     

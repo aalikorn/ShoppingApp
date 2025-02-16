@@ -19,8 +19,15 @@ final class SearchViewModel {
     
     static let shared = SearchViewModel()
     private init() {}
+    
+    var pastRequestParam: String?
 
     func loadProducts(title: String? = nil) {
+        if let param = pastRequestParam {
+            loadProducts(param: param)
+            return
+        }
+        
         guard !isLoading else { return }
         isLoading = true
         repository.fetchProducts(offset: (currentPage - 1) * itemsPerPage, limit: itemsPerPage,title: title) { [weak self] result in
@@ -40,18 +47,19 @@ final class SearchViewModel {
     }
     
     func loadProducts(param: String) {
-        print(param)
-        print(self.currentPage)
         guard !isLoading else { return }
         isLoading = true
+        if param == "" {
+            pastRequestParam = nil
+        } else {
+            pastRequestParam = param
+        }
         repository.fetchProducts(with: param, offset: (currentPage - 1) * itemsPerPage, limit: itemsPerPage) { [weak self] result in
             switch result {
             case .success(let newProducts):
-//                if self?.currentPage == 1 {
-//
-//                }
-                
-                self?.products.removeAll()
+                if self?.currentPage == 1 {
+                    self?.products.removeAll()
+                }
                 self?.isLoading = false
                 self?.products.append(contentsOf: newProducts)
                 self?.currentPage += 1

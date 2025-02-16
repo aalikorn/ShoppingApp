@@ -94,6 +94,7 @@ class ItemViewController: UIViewController {
         quantityTextField.layer.borderColor = UIColor.systemBlue.cgColor
         quantityTextField.layer.cornerRadius = 8
         quantityTextField.textAlignment = .center
+        quantityTextField.isEnabled = false
         quantityTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             quantityTextField.widthAnchor.constraint(equalToConstant: 50),

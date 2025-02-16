@@ -91,6 +91,7 @@ class ShoppingListItemCell: UITableViewCell {
         quantityTextField.layer.borderColor = UIColor.systemBlue.cgColor
         quantityTextField.layer.cornerRadius = 8
         quantityTextField.textAlignment = .center
+        quantityTextField.isEnabled = false
         
         minusButton.translatesAutoresizingMaskIntoConstraints = false
         plusButton.translatesAutoresizingMaskIntoConstraints = false

@@ -70,6 +70,18 @@ class ApplyCell: UITableViewCell {
         FiltersViewModel.shared.maxPrice = nil
         FiltersViewModel.shared.price = nil
         FiltersViewModel.shared.name = nil
+        print("pressed")
         closeControllerHandler?()
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        applyButton.removeTarget(nil, action: nil, for: .allEvents)
+        denyButton.removeTarget(nil, action: nil, for: .allEvents)
+
+        applyButton.addTarget(self, action: #selector(applyButtonTapped), for: .touchUpInside)
+        denyButton.addTarget(self, action: #selector(denyButtonTapped), for: .touchUpInside)
+    }
+
 }

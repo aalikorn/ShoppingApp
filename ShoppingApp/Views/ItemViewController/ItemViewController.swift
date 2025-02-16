@@ -245,13 +245,9 @@ class ItemViewController: UIViewController {
     }
     
     @objc func toCartButtonTapped() {
-        if let navController = navigationController,
-           let shoppingListVC = navController.viewControllers.first(where: { $0 is ShoppingListViewController }) {
-            navController.popToViewController(shoppingListVC, animated: true)
-        } else {
-            let shoppingListVC = ShoppingListViewController()
-            navigationController?.pushViewController(shoppingListVC, animated: true)
-        }
+        if let tabBarController = self.tabBarController {
+           tabBarController.selectedIndex = 1
+       }
     }
     
     func setupScrollView() {

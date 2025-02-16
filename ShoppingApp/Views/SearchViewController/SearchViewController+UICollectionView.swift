@@ -44,16 +44,22 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return layout
     }
     
+    
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let frameHeight = scrollView.frame.size.height
         
         if position > contentHeight - frameHeight * 1.5 {
-            print("scroll")
-            SearchViewModel.shared.loadProducts()
+            SearchViewModel.shared.loadProducts() {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
         }
     }
+
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let itemVC = ItemViewController()

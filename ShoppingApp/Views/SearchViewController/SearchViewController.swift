@@ -26,12 +26,20 @@ class SearchViewController: UIViewController {
         view.backgroundColor = .white
         setupKeyboardDismissRecognizer()
         setupCollectionView()
-        setupNotErrorView()
+        setupErrorView()
         setupNotFoundView()
         setupHistoryTableView()
         SearchViewModel.shared.onUpdate = {[weak self] in
             self?.updateUI()}
         SearchViewModel.shared.loadProducts()
+        SearchViewModel.shared.onError = { [weak self] errorMessage in
+            DispatchQueue.main.async {
+                self?.errorView.isHidden = false
+                self?.collectionView.isHidden = true
+            }
+        }
+        addTapGestureToHideHistory()
+        
     }
     
     func setupNotFoundView() {
@@ -66,7 +74,7 @@ class SearchViewController: UIViewController {
         notFoundView.isHidden = true
     }
     
-    func setupNotErrorView() {
+    func setupErrorView() {
         errorView = UIView(frame: .zero)
         view.addSubview(errorView)
         errorView.translatesAutoresizingMaskIntoConstraints = false
@@ -78,24 +86,42 @@ class SearchViewController: UIViewController {
         ])
         
         let label = UILabel()
-
+        let button = UIButton(type: .system)
+        
         errorView.addSubview(label)
+        errorView.addSubview(button)
         
         label.translatesAutoresizingMaskIntoConstraints = false
+        button.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             label.centerXAnchor.constraint(equalTo: errorView.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: errorView.centerYAnchor),
+            label.centerYAnchor.constraint(equalTo: errorView.centerYAnchor, constant: -50),
             label.widthAnchor.constraint(equalToConstant: 250),
+            
+            button.centerXAnchor.constraint(equalTo: errorView.centerXAnchor),
+            button.centerYAnchor.constraint(equalTo: errorView.centerYAnchor, constant: 50),
+            button.widthAnchor.constraint(equalToConstant: 200),
+            button.heightAnchor.constraint(equalToConstant: 50)
         ])
         
-        label.text = "По такому запросу ничего не найдено :("
+        label.text = "Произошла ошибка при обработке запроса :("
         label.textColor = .black
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.numberOfLines = 0
         label.textAlignment = .center
         
+        button.setTitle("Попробовать снова", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 8
+        button.addTarget(self, action: #selector(tryAgainButtonTapped), for: .touchUpInside)
+        
         errorView.isHidden = true
+    }
+    
+    @objc func tryAgainButtonTapped() {
+        SearchViewModel.shared.repeatQuery()
     }
     
     func setupCollectionView() {
@@ -148,5 +174,16 @@ class SearchViewController: UIViewController {
        
         present(filterVC, animated: true)
     }
+    
+    private func addTapGestureToHideHistory() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideSearchHistory))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc private func hideSearchHistory() {
+        historyTableView.isHidden = true
+    }
+
 }
 

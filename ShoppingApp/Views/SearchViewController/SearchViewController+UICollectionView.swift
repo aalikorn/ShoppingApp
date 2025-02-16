@@ -47,11 +47,15 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
         let position = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let frameHeight = scrollView.frame.size.height
         
         if position > contentHeight - frameHeight * 1.5 {
+            if SearchViewModel.shared.isReachedEndOfData {
+                return
+            }
             SearchViewModel.shared.loadProducts() {
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()

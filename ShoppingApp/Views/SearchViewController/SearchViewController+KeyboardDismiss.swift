@@ -11,6 +11,7 @@ extension SearchViewController: UIScrollViewDelegate {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         searchController.resignFirstResponder()
+        historyTableView.isHidden = true
     }
     
     func setupKeyboardDismissRecognizer() {

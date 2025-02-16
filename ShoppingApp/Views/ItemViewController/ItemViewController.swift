@@ -28,11 +28,14 @@ class ItemViewController: UIViewController {
     let minusButton = UIButton()
     let toCartButton = UIButton()
     
+    let shareButton = UIButton()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.backgroundColor = .white
         setupScrollView()
+        
         if let itemViewModel = itemViewModel {
             setupImage(UIImage(named: "placeholder")!)
             configureImage(itemViewModel.image)
@@ -43,6 +46,7 @@ class ItemViewController: UIViewController {
             configureDescriptionLabel(itemViewModel.description)
             configureAddedToCartView()
         }
+        configureShareButton()
         checkQuantity()
     }
 
@@ -195,6 +199,7 @@ class ItemViewController: UIViewController {
         ])
     }
     
+    
     func configureCategoryLabel(_ category: String) {
         categoryLabel.text = category
         categoryLabel.font = .systemFont(ofSize: 17)
@@ -223,21 +228,6 @@ class ItemViewController: UIViewController {
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
     }
     
-    func configureDescriptionLabel(_ desc: String) {
-        descriptionLabel.text = desc
-        descriptionLabel.font = .systemFont(ofSize: 17)
-        descriptionLabel.textColor = .black
-        descriptionLabel.numberOfLines = 0
-        contentView.addSubview(descriptionLabel)
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            descriptionLabel.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 16),
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
-        ])
-    }
-    
     @objc func addButtonTapped() {
         ShoppingListViewModel.shared.addProduct(itemViewModel.product)
         addButton.isHidden = true
@@ -249,6 +239,53 @@ class ItemViewController: UIViewController {
         if let tabBarController = self.tabBarController {
            tabBarController.selectedIndex = 1
        }
+    }
+    
+    func configureDescriptionLabel(_ desc: String) {
+        descriptionLabel.text = desc
+        descriptionLabel.font = .systemFont(ofSize: 17)
+        descriptionLabel.textColor = .black
+        descriptionLabel.numberOfLines = 0
+        contentView.addSubview(descriptionLabel)
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            descriptionLabel.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 16),
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+    }
+    
+    func configureShareButton() {
+        shareButton.setTitle("Поделиться", for: .normal)
+        shareButton.backgroundColor = .systemBlue
+        shareButton.layer.cornerRadius = 8
+        contentView.addSubview(shareButton)
+        shareButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            shareButton.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 10),
+            shareButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            shareButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            shareButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc func shareButtonTapped() {
+        let productName = itemViewModel.title
+        let productDescription = itemViewModel.description
+        let productPrice = itemViewModel.price
+        let shareText = "Посмотрите этот товар: \(productName)\nОписание: \(productDescription)\nЦена: \(productPrice)"
+
+        let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
+        
+        if let popoverController = activityViewController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        present(activityViewController, animated: true, completion: nil)
     }
     
     func setupScrollView() {

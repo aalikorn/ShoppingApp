@@ -44,7 +44,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let query = filteredHistory[indexPath.row]
         searchController.text = query
-        SearchViewModel.shared.loadProducts(title: query)
+        print(query)
+        SearchViewModel.shared.currentPage = 1
+        SearchViewModel.shared.pastRequestParam = query
+        SearchViewModel.shared.loadProducts(param: "title=\(query)&")
         historyTableView.isHidden = true
         searchController.endEditing(true)
     }

@@ -14,9 +14,11 @@ final class SearchViewModel {
     
     var products: [Product] = []
     var onUpdate: (() -> Void)?
+    var onError: ((String) -> Void)?
     var currentPage = 1
     private let itemsPerPage = 20
     private var isLoading = false
+    var isReachedEndOfData: Bool = false
     
     var userDefaults = UserDefaults.standard
     var searchHistory: [String] {
@@ -36,10 +38,10 @@ final class SearchViewModel {
             loadProducts(param: param)
             return
         }
-        print("hi")
         
         guard !isLoading else { return }
         isLoading = true
+        self.isReachedEndOfData = false
         repository.fetchProducts(offset: (currentPage - 1) * itemsPerPage, limit: itemsPerPage,title: title) { [weak self] result in
             switch result {
             case .success(let newProducts):
@@ -47,20 +49,32 @@ final class SearchViewModel {
                     self?.products.removeAll()
                 }
                 self?.isLoading = false
+                if newProducts.count < 20 {
+                    self?.isReachedEndOfData = true
+                }
                 self?.products.append(contentsOf: newProducts)
+                
                 self?.currentPage += 1
                 self?.onUpdate?()
             case .failure(let error):
-                print("Ошибка загрузки: \(error)")
+                self?.onError?("Ошибка загрузки: \(error.localizedDescription)")
             }
         }
         completion?()
     }
     
+    func repeatQuery() {
+        if let param = pastRequestParam {
+            loadProducts(param: param)
+        } else {
+            loadProducts()
+        }
+    }
+    
     func loadProducts(param: String) {
         guard !isLoading else { return }
         isLoading = true
-        print(param)
+        self.isReachedEndOfData = false
         if param == "" {
             pastRequestParam = nil
         } else {
@@ -73,12 +87,14 @@ final class SearchViewModel {
                     self?.products.removeAll()
                 }
                 self?.isLoading = false
+                if newProducts.count < 20 {
+                    self?.isReachedEndOfData = true
+                }
                 self?.products.append(contentsOf: newProducts)
                 self?.currentPage += 1
-                print("upd")
                 self?.onUpdate?()
             case .failure(let error):
-                print("Ошибка загрузки: \(error)")
+                self?.onError?("Ошибка загрузки: \(error.localizedDescription)")
             }
         }
     }

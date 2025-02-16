@@ -121,9 +121,7 @@ final class SearchViewModel {
     
     func saveToHistory(_ query: String) {
         var history = searchHistory
-        print(108, history)
         if history.count > 5 { history.removeLast() }
-        print(110, history)
         if let index = history.firstIndex(of: query) {
             history.remove(at: index)
         }

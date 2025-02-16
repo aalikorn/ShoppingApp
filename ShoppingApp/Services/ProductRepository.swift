@@ -23,7 +23,6 @@ final class ProductRepository {
         }
         guard let url = URL(string: urlString) else { return }
         let request = URLRequest(url: url)
-        print(request)
         NetworkService.shared.request(request, completion: completion)
     }
     
@@ -34,7 +33,6 @@ final class ProductRepository {
             .replacingOccurrences(of: "]", with: "")     
             .replacingOccurrences(of: "\"", with: "")
         guard let imageUrl = URL(string: cleanedUrl) else { return }
-        print(imageUrl)
         let request = URLRequest(url: imageUrl)
         NetworkService.shared.requestData(request, completion: completion)
     }
@@ -44,7 +42,6 @@ final class ProductRepository {
         urlString += "&\(param)"
         guard let url = URL(string: urlString) else { return }
         let request = URLRequest(url: url)
-        print(request)
         NetworkService.shared.request(request, completion: completion)
     }
 }

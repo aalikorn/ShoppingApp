@@ -31,7 +31,6 @@ extension SearchViewController: UISearchBarDelegate {
         if SearchViewModel.shared.searchHistory.count != 0 {
             filterSearchHistory("")
             updateTableViewHeight()
-            print(self.filteredHistory)
             self.historyTableView.isHidden = false
             self.historyTableView.reloadData()
         }

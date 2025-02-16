@@ -70,7 +70,6 @@ class ApplyCell: UITableViewCell {
         FiltersViewModel.shared.maxPrice = nil
         FiltersViewModel.shared.price = nil
         FiltersViewModel.shared.name = nil
-        print("pressed")
         closeControllerHandler?()
     }
     

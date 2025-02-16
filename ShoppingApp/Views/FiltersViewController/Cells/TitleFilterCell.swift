@@ -45,7 +45,6 @@ extension TitleFilterCell: UITextFieldDelegate {
         textField.resignFirstResponder()
         if let title = textField.text {
             FiltersViewModel.shared.name = title
-            print(title)
         }
         return true
     }

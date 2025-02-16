@@ -1,4 +1,4 @@
-# avitoTest
+# ShoppingApp
 
 IOS приложение - интернет-магазин.
 
